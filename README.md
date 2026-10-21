@@ -85,6 +85,17 @@ GitHub Actions workflow `.github/workflows/deploy.yml` при пуше в `main`
    - `heatlh-checker-run.timer` — запуск каждые 5 минут (`OnCalendar=*:0/5`)
 5. включает и перезапускает timer.
 
+Unit-файлы хранятся в `ops/systemd/`, устанавливаются через
+`bash ops/install-systemd.sh` после проверки `systemd-analyze verify`.
+Не формируйте их через heredoc внутри `ssh-action` с `script_stop: true`:
+обёртка добавляет проверку exit code после каждой строки и повреждает содержимое
+heredoc. Ошибка установки или запуска мониторинга должна останавливать деплой.
+
+DNS-сбой у авторитетного провайдера не исправляется заменой IP в `urls.txt`
+или добавлением доменов в `/etc/hosts`: такие обходы скрывают недоступность сайтов
+для пользователей. Проверки origin по IP с исходным hostname и проверкой TLS
+следует выполнять отдельно от обычной проверки публичного DNS.
+
 ## Какие GitHub Secrets нужны
 
 - `DEPLOY_SSH_HOST`

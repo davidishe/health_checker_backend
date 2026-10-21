@@ -1,0 +1,10 @@
+[Unit]
+Description=Health checker URL scan (oneshot)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/var/apps/backend/heatlh_checker_backend
+EnvironmentFile=/var/apps/backend/heatlh_checker_backend/.env
+ExecStart=/var/apps/backend/heatlh_checker_backend/.venv/bin/python /var/apps/backend/heatlh_checker_backend/checker.py

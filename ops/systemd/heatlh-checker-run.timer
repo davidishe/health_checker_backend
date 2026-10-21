@@ -1,0 +1,10 @@
+[Unit]
+Description=Run health checker every 5 minutes
+
+[Timer]
+OnCalendar=*:0/5
+Persistent=true
+Unit=heatlh-checker-run.service
+
+[Install]
+WantedBy=timers.target
